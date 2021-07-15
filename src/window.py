@@ -1,5 +1,6 @@
 from PIL import Image as Img
-import simpleaudio as sa
+from pydub.playback import _play_with_simpleaudio
+from pydub import AudioSegment
 from PIL import ImageTk
 from tkinter import *
 import tkvideo
@@ -18,11 +19,11 @@ class Window(Tk):
 
     @staticmethod
     def play_sound(path):
-        return sa.WaveObject.from_wave_file(path).play()
+        return _play_with_simpleaudio(AudioSegment.from_file(path))
 
     def play_video(self, filename: str):
         # Create a holder for the video
-        holder = Frame(self)
+        holder = Label(self)
         holder.pack(side=TOP, expand=YES)
 
         # Create the video player
@@ -48,7 +49,10 @@ class Window(Tk):
         image_holder.pack(side=TOP, expand=YES)
         self.update()
 
-        if duration:
+        if duration > 0:
             self.after(duration, func=image_holder.destroy)
+
+        elif duration < 0:
+            raise ValueError("Duration must be greater or equal to 0")
 
         return image_holder
