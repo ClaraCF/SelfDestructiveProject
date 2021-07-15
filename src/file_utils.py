@@ -35,7 +35,7 @@ def Backup(directory: str) -> dict:   # Returns a dictionary with all files and 
     return project
 
 
-# This functions returns all files  in  memory back to disk
+# This functions returns all files in memory back to disk
 def Restore(project: dict):
     for file in project:
 
@@ -46,3 +46,36 @@ def Restore(project: dict):
 
         else:
             Write(file, project[file])
+
+
+# This function recursively deletes all files in a directory
+# (Yes, I could've used system commands and check for sys.platform,
+# but in terms of cross platform, this is easier IMO)
+def Obliterate(directory: str, inclusive=True):
+    # Inclusive flag tells the function whether to keep the empty
+    # directory or just removing it alltogether
+
+    # Save current directory and enter specified dir
+    initial_dir = os.getcwd()
+    os.chdir(directory)
+
+    for file in os.listdir(directory):
+        file = os.path.abspath(file)
+
+        if os.path.isdir(file):
+            Obliterate(file)
+
+        else:
+            os.remove(file)
+
+    if inclusive:
+        try:
+            os.removedirs(directory)
+        except FileNotFoundError:
+            pass
+
+    # Return to the initial directory
+    try:
+        os.chdir(initial_dir)
+    except FileNotFoundError:
+        pass
