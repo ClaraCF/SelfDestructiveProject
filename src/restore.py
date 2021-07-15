@@ -16,12 +16,13 @@ import sys
 import os
 
 """
-argv0         argv1    argv2     argv3       argv4        argv5*
-restore.py    <pid>    <time>    <project>   <relaunch>   [path]
+argv0         argv1    argv2     argv3       argv4         argv5        argv6*
+restore.py    <pid>    <time>    <project>   <directory>   <relaunch>   [path]
 
 pid: The PID of the parent process
 time: The time to wait before restoring the project
 project: A dictionary containing the files in the project and its data
+directory: The project's parent directory
 relaunch: Boolean stating if main program should be relaunched or not
 path*: If reopen is true, a path to main.py must be specified
 """
@@ -39,12 +40,16 @@ while os.getppid() == pid:
 time = float(sys.argv[2])    # Could potentially raise TypeError
 sleep(time)
 
+# Create parent directory once again
+if not os.path.exists(sys.argv[4]):
+    os.mkdir(sys.argv[4])
+
 # Restore all the project's files
 project = literal_eval(sys.argv[3])
 Restore(project)
 
 # Restart the main script if requested
-relaunch: bool = (sys.argv[4] == "True")
+relaunch: bool = (sys.argv[5] == "True")
 if relaunch:
-    path = sys.argv[5]
+    path = sys.argv[6]
     subprocess.Popen(["python3", path])  # Not specifying path raises IndexError
