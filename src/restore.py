@@ -51,6 +51,10 @@ project = "".join(sys.argv)
 while os.getppid() == pid:
     sleep(0.5)
 
+
+# Recurively delete the project's files
+Obliterate(directory)
+
 # Wait specified time
 sleep(time)
 

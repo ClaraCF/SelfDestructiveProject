@@ -5,6 +5,7 @@ from src.window import *
 from num2words import num2words
 from tkinter import *
 import subprocess
+import time
 import sys
 import os
 
@@ -59,9 +60,6 @@ def CommitSuicide():
     project = [project[i:i + 10_000] for i in range(0, len(project), 10_000)]
     args = [str(os.getpid()), "7", PARENT_DIR, "True", f"{PARENT_DIR}/main.py", *project]
     subprocess.Popen(["python3", f"{PARENT_DIR}/src/restore.py", *args])
-
-    # Then start recurively deleting the project's files
-    Obliterate(PARENT_DIR)
 
 
 # Bri'ish?!
