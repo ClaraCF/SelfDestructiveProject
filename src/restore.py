@@ -16,40 +16,52 @@ import sys
 import os
 
 """
-argv0         argv1    argv2     argv3       argv4         argv5        argv6*
-restore.py    <pid>    <time>    <project>   <directory>   <relaunch>   [path]
+argv0         argv1    argv2     argv3         argv4        argv5      argv6*
+restore.py    <pid>    <time>    <directory>   <relaunch>   <path>     <project>
 
 pid: The PID of the parent process
 time: The time to wait before restoring the project
-project: A dictionary containing the files in the project and its data
 directory: The project's parent directory
 relaunch: Boolean stating if main program should be relaunched or not
-path*: If reopen is true, a path to main.py must be specified
-"""
+path: If reopen is true, a path to main.py must be specified
+project*: A dictionary containing the files in the project and its data
 
+NOTE: Project was changed as an *args because Operative Systems have a
+single-argument length limit, and given the fact we're passing entire
+binary dumps of files, the length gets quite long, so this script will
+received small chunks and add it all together.
+"""
 
 # Ignore SIGHUP
 signal.signal(signal.SIGHUP, signal.SIG_IGN)
 
-# Wait for parent process to die
+# Parse arguments into variables
 pid = int(sys.argv[1])
+time = float(sys.argv[2])
+directory = sys.argv[3]
+relaunch = bool("True" == sys.argv[4])
+path = sys.argv[5]
+del sys.argv[0:6]   # Clean argv list
+
+# Add al project chunks into a single string
+project = "".join(sys.argv)
+
+
+# Wait for parent process to die
 while os.getppid() == pid:
     sleep(0.5)
 
 # Wait specified time
-time = float(sys.argv[2])    # Could potentially raise TypeError
 sleep(time)
 
 # Create parent directory once again
-if not os.path.exists(sys.argv[4]):
-    os.mkdir(sys.argv[4])
+if not os.path.exists(directory):
+    os.mkdir(directory)
 
 # Restore all the project's files
-project = literal_eval(sys.argv[3])
+project = literal_eval(project)
 Restore(project)
 
 # Restart the main script if requested
-relaunch: bool = (sys.argv[5] == "True")
 if relaunch:
-    path = sys.argv[6]
     subprocess.Popen(["python3", path])  # Not specifying path raises IndexError
