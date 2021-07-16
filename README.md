@@ -6,8 +6,8 @@ This is literally the most complex project I've ever worked with and it's for su
 This little project will basically close, back up all files in the current directory to memory, recursively delete everything, then wait a couple seconds, write all data from memory back to disk and pop back open again.  
 
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/Claracf/SelfDestructiveProject) 
-![GitHub](https://img.shields.io/github/license/ClaraCF/SelfDestructiveProject) 
 ![GitHub last commit](https://img.shields.io/github/last-commit/ClaraCF/SelfDestructiveProject) 
+![GitHub license](https://img.shields.io/github/license/ClaraCF/SelfDestructiveProject) 
 ![This is so dumb](https://img.shields.io/badge/this%20is-so%20dumb-blue)  
 <br>
 
