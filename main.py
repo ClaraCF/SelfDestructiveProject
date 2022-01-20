@@ -59,7 +59,7 @@ def CommitSuicide():
     project = str(project)
     project = [project[i:i + 10_000] for i in range(0, len(project), 10_000)]
     args = [str(os.getpid()), "7", PARENT_DIR, "True", f"{PARENT_DIR}/main.py", *project]
-    subprocess.Popen(["python3", f"{PARENT_DIR}/src/restore.py", *args])
+    subprocess.Popen(["/bin/python3", f"{PARENT_DIR}/src/restore.py", *args])
 
 
 # Bri'ish?!
