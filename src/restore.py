@@ -68,4 +68,4 @@ Restore(project)
 
 # Restart the main script if requested
 if relaunch:
-    subprocess.Popen(["python3", path])  # Not specifying path raises IndexError
+    subprocess.Popen(["/bin/python3", path])  # Not specifying path raises IndexError
