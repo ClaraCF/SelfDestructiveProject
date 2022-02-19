@@ -1,5 +1,5 @@
 asgiref==3.4.1
-Django==3.2.11
+Django==3.2.12
 docopt==0.6.2
 image==1.5.33
 imageio==2.9.0
